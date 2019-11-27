@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>index</title>
+	<link rel="stylesheet" href="/static/css/style.css">
+
+	<script src="/static/dist/player-skin.js"></script>
+	<script src="/static/dist/player.full.js"></script>
+
+</head>
+<body>
+
+<div class = "content">
+	<div id="container">
+		<!--import video-->
+
+		<video id="3DVision" width="1280" height="720" class="video" poster="/static/asserts/poster.jpg" crossorigin="anonymous" controls >
+			<source src="http://192.168.31.123:8081/hls/test.m3u8" type="application/x-mpegURL">
+		</video>
+
+		<!--end-->
+
+		<canvas id="drawCanvas" width="1280" height="720"></canvas>
+	</div>
+
+	<div id="status" class="wraps">
+		<div id="connection status">
+			<div class="title">connection status</div>
+			<div class="wraps_s">
+				<div>ip address:</div>
+				<div id="ip">{{ip}}</div>
+			</div>
+			<div class="wraps_s">
+				<div>port number:</div>
+				<div id="port">{{port}}</div>
+			</div>
+			<div class="wraps_s">
+				<div>connection status:</div>
+				<div id="connectionStatus">not connected</div>
+			</div>
+		</div>
+		<div id="double status">
+			<div class="title">double status</div>
+			<div class="wraps_s">
+				<div>pole height:</div>
+				<div id="pole">unknown</div>
+			</div>
+			<div class="wraps_s">
+				<div>park status:</div>
+				<div id="park">unknown</div>
+			</div>
+			<div class="wraps_s">
+				<div>battery status:</div>
+				<div id="battery">unknown</div>
+			</div>
+		</div>
+	</div>
+
+	<button id="detectButton"  onclick="detectingTrigger();">Start</button>
+</div>
+</body>
+<script src="/static/dist/jquery.js"></script>
+<!--import video-->
+<script>
+		(function(){
+				var player = videojs( '#3DVision', {
+						techOrder: ['html5']
+				});
+				player.vr({projection: "360"});
+		})();
+</script>
+<!--end-->
+
+<script type="text/javascript">
+	var isDetecting = false;
+
+	// trigger button to start and stop item detection function
+	function detectingTrigger() {
+		isDetecting = isDetecting === false ? true : false;
+		let _button = document.getElementById('detectButton');
+		_button.innerHTML = _button.innerHTML === 'Start' ? 'Stop' : 'Start';
+		if (isDetecting === true) {
+			sendScreenshot();
+		} else {
+			var drawCanvas =  document.getElementById('drawCanvas')
+			var ctx = drawCanvas.getContext('2d')
+			ctx.clearRect(0, 0, 1280, 720)
+		}
+	}
+
+	// send screenshot and draw the detection result
+	function sendScreenshot() {
+		if (isDetecting === true) {
+			var video = document.getElementById('3DVision_html5_api');
+			//get threejs screenshot
+			mycamera = document.getElementById('3DVision').player.vr.threeJs.camera
+			myrenderer = document.getElementById('3DVision').player.vr.threeJs.renderer
+			myscene = document.getElementById('3DVision').player.vr.threeJs.scene
+
+
+	    	myrenderer.render(myscene, mycamera)
+			myrenderer.setSize( 1280, 720 )
+
+			var dataURL = myrenderer.domElement.toDataURL()
+
+			var drawCanvas =  document.getElementById('drawCanvas')
+			var ctx = drawCanvas.getContext('2d')
+
+			$.ajax({
+				type: "POST",
+				url: "/screenshot",
+				data:{ imageBase64: dataURL },
+				success:function(response){
+					// console.log(response.result);
+					var myResult = response.result
+					// clear canvas first
+					ctx.clearRect(0, 0, 1280, 720);
+					for(var i = 0; i < myResult.length; i++){
+						// draw detection results
+						drawRect(myResult[i], ctx)
+					}
+				},
+				async: false
+			});
+			setTimeout(sendScreenshot, 500); // call this function again in 500ms
+		}
+	}
+
+	// function to draw a detection result by given class name and coordinates
+	function drawRect(rectData, ctx)
+	{	
+		//draw rect
+  		ctx.beginPath()
+  		var item = rectData[0]
+  		var leftupX = rectData[2]
+  		var leftupY = rectData[3]
+  		var width = rectData[4] - rectData[2]
+  		var height = rectData[5] - rectData[3]
+  		console.log(item, leftupX, leftupY, width, height)
+  		ctx.rect(leftupX, leftupY, width, height);
+  		ctx.lineWidth = 1;
+  		ctx.stroke()
+  		// write text
+  		ctx.strokeStyle = 'red';
+  		ctx.font = "30px Arial";
+  		ctx.fillStyle = "red";
+		ctx.fillText(item, leftupX, leftupY-10);
+  		ctx.stroke()
+	}
+
+	// function to update robot's status
+	function updateStatus(){
+		$.ajax({
+			type: "GET",
+			url: "/status",
+			success:function(response){
+				document.getElementById('connectionStatus').innerHTML = response.conn;
+				document.getElementById('pole').innerHTML = response.pole;
+				document.getElementById('park').innerHTML = response.park;
+				document.getElementById('battery').innerHTML = response.battery;
+			},
+			async: false
+		});
+		setTimeout(updateStatus, 100); 
+	}
+
+	// run updateStatus function by default
+	updateStatus()
+
+</script>
+</html>

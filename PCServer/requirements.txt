@@ -1,0 +1,8 @@
+numpy
+flask 
+json
+cv2
+Tensorflow==1.14
+PIL
+Keyboard
+webbrowser
