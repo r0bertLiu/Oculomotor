@@ -17,6 +17,13 @@ Before running the application please follow the steps below to set up the worki
    6) Trust the developer and application on you device
    
 2. Set up Camera and live stream 
+   SERVERIP represents the IP address of your server pc<br>
+ 1) Download the nginx from https://github.com/arut/nginx-rtmp-module, override the configure file using /NginxServer/conf/nginx.conf
+ 2) Run stream server nginx.exe<br>
+   it will open the hls stream server at rtmp://SERVERIP:1936/hls
+ 3) Make sure Insta360 camera and server pc at the same LAN. Connect to Insta360 camera through smartphone app or pc client. Chose streaming mode as Custom Rtmp Server and Live-stream Format as RTMP. Fill in the stream server address and key rtmp://localhost:1936/hls/test into the Insta360 camera live stream setting.(test is stream key)
+ 4) The frontend client can access the HLS streaming index file from http://localhost:8081/hls/test.m3u8. Modify the frontend file in our project repository: /PCServer/templates/index.html<br>
+ Modify the video element(ElementID: 3DVision) source URL to :http://SERVERIP:8081/hls/test.m3u8 to access the hls index file.
 
 3. Set up YoLo (download weights)
 
