@@ -57,8 +57,8 @@ Before running the application please follow the steps below to set up the worki
     8)  Click “play” button on frontend web page to start live streaming (you can drag on screen to see panoramic view)
     9)  Click “Start” button to start object detection function
     10) Use keyboard to control the Double, the keyboard usage are:
-            W:	  move forward
-            S:  	move backward
+            W: move forward
+            S: move backward
             A:    turn left
             D:    turn Right
             P:    Park the robot
