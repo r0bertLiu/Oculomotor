@@ -56,15 +56,15 @@ Before running the application please follow the steps below to set up the worki
     7)  Click “connect to remote” button to make TCP connection with PCServer
     8)  Click “play” button on frontend web page to start live streaming (you can drag on screen to see panoramic view)
     9)  Click “Start” button to start object detection function
-    10) Use keyboard to control the Double, the keyboard usage are:
-            W: move forward
-            S: move backward
-            A:    turn left
-            D:    turn Right
-            P:    Park the robot
-            V: 	  Stop all actions
-            I:   	Pole Up
-            K:    Pole Down
+    10) Use keyboard to control the Double, the keyboard usage are: <br>
+            W:    move forward <br>
+            S:    move backward <br>
+            A:    turn left   <br>
+            D:    turn Right  <br>
+            P:    Park the robot <br> 
+            V: 	Stop all actions <br>
+            I:   	Pole Up  <br>
+            K:    Pole Down <br>
 
 
 
