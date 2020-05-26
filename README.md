@@ -14,6 +14,9 @@ The robot moves slowly and carefully, most of what you see is the picture coming
 
 As the content mentioned in the proposal, all of the tasks has been achieved without self-driving. The reason for this is because of the failure of applying the SDK of the camera and Double robot itself does not support sensors.
 
+## Demonstration videos
+### Object detection: https://youtu.be/4kLJ54I2aV4
+### Final works: https://youtu.be/GeYtAcq8QY4
 
 ## User documentation/manual
 
