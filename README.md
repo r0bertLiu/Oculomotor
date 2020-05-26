@@ -7,6 +7,8 @@ This project is a useful application for Double the robot with panoramic view. A
 ## Overview - Architecture
 Because the robotic Double has been provided by UNSW to us, a creative idea had been made that is we want to create a functional robot. The idea is the robot can be controlled remotely and the received data of the environment can be shown on PC by its camera. The basic structure of our idea has been shown in the flowchart below.
 
+![alt text](https://github.com/r0bertLiu/Oculomotor/raw/master/Media/Image/graph.png "flowchart")
+
 From this flowchart, the start is from the PC server application in Desktop, command can be sent by clicking the keyboard, and then iPhone gets the command because iphone can communicate with Double Robot. Once the iPhone got the command from PC, it will tell Double Robot what the robot should do, then Double robot do it. 
 The robot moves slowly and carefully, most of what you see is the picture coming from the main camera on top of the robot. The camera on the top of the robot which is used for detecting the data of environment, after several steps the data of the environment will be sent nginx rtmp stream server, then nginx rtmp will send the data to  the PC server. Furthermore, there are some side functions which enhancing our main application. For example, Frontend Web UI is used for showing UI and object detection function. 
 
