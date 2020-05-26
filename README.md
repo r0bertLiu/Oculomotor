@@ -4,6 +4,15 @@ This repo is a university project of UNSW Master of IT course comp9900 Informati
 ##  Introduction
 This project is a useful application for Double the robot with panoramic view. A iOS client side application use bluetooth to link robot and waitting operation to contol it. A PCServer to send operation from keyboard, receive the panoramic live streamming sent by Insta360 pro camera and use a machine learning module to do object detection. A frontend brower based webpage to show the parnoramic view and date detection result.
 
+## Overview - Architecture
+Because the robotic Double has been provided by UNSW to us, a creative idea had been made that is we want to create a functional robot. The idea is the robot can be controlled remotely and the received data of the environment can be shown on PC by its camera. The basic structure of our idea has been shown in the flowchart below.
+
+From this flowchart, the start is from the PC server application in Desktop, command can be sent by clicking the keyboard, and then iPhone gets the command because iphone can communicate with Double Robot. Once the iPhone got the command from PC, it will tell Double Robot what the robot should do, then Double robot do it. 
+The robot moves slowly and carefully, most of what you see is the picture coming from the main camera on top of the robot. The camera on the top of the robot which is used for detecting the data of environment, after several steps the data of the environment will be sent nginx rtmp stream server, then nginx rtmp will send the data to  the PC server. Furthermore, there are some side functions which enhancing our main application. For example, Frontend Web UI is used for showing UI and object detection function. 
+
+As the content mentioned in the proposal, all of the tasks has been achieved without self-driving. The reason for this is because of the failure of applying the SDK of the camera and Double robot itself does not support sensors.
+
+
 ## User documentation/manual
 
 Before running the application please follow the steps below to set up the working environment. Firstly, pip install the requirment.txt under PCServer directory.
