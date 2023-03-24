@@ -2,7 +2,7 @@ numpy
 flask 
 json
 cv2
-Tensorflow==1.14
+Tensorflow==2.11.1
 PIL
 Keyboard
 webbrowser
